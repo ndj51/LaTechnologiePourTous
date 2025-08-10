@@ -1,0 +1,71 @@
+<?php
+require_once 'bdd.php';
+// On vérifie d'abord si une action a été envoyée
+if (isset($_POST['action'])) {
+    error_log('function.php');
+    if ($_POST['action'] === 'login') {
+        error_log('Login action triggered: ' . $_POST['action']);
+
+        session_start();
+
+        $error = '';
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $username = trim($_POST['username'] ?? '');
+            $password = $_POST['password'] ?? '';
+
+            // Identifiants fictifs pour la démonstration
+            $validUser = 'admin';
+            $validPass = 'password123';
+
+            if ($username === $validUser && $password === $validPass) {
+                $_SESSION['user'] = $username;
+                header('Location: ../public/index.php');
+                exit;
+            } else {
+                $error = 'Nom d\'utilisateur ou mot de passe incorrect.';
+            }
+        }
+    
+    }
+
+    if ($_POST['action'] === 'aticleCreate') {
+        error_log('Article creation action triggered: ' . $_POST['action']);
+        // Logique pour créer un article
+        // ...
+        $error = '';
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            error_log('Processing article creation form submission');
+            // On récupère les données du formulaire
+            $title = trim($_POST['titleArticle'] ?? '');
+            $content = $_POST['article'] ?? '';
+
+            createArticle($title, $content);
+
+            // Ici, vous pouvez ajouter la logique pour enregistrer l'article dans la base de données
+            // Par exemple, en utilisant PDO pour insérer les données dans une table 'articles'
+
+            // Pour l'instant, on va juste simuler une réussite
+            $success = true; // Simulez le succès de l'opération
+
+            if ($success) {
+                header('Location: ../public/admin.php');
+                exit;
+            } else {
+                $error = 'Erreur lors de la création de l\'article.';
+            }
+        }
+    }   
+
+}
+
+
+function readArticles() {
+    $pdo = dbConnect();
+    try {
+        $stmt = $pdo->query("SELECT * FROM articles ORDER BY created_at DESC");
+        return $stmt->fetchAll();
+    } catch (\PDOException $e) {
+        error_log('Database error: ' . $e->getMessage());
+        return false;
+    }
+}

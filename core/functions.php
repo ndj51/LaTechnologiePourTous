@@ -39,7 +39,7 @@ if (isset($_POST['action'])) {
             $title = trim($_POST['titleArticle'] ?? '');
             $content = $_POST['article'] ?? '';
 
-            createArticle($title, $content);
+            //createArticle($title, $content);
 
             // Ici, vous pouvez ajouter la logique pour enregistrer l'article dans la base de données
             // Par exemple, en utilisant PDO pour insérer les données dans une table 'articles'
@@ -87,6 +87,18 @@ function readArticles($nb) {
     try {
         $stmt = $pdo->query("SELECT * FROM articles ORDER BY created_at DESC LIMIT $quantity");
         return $stmt->fetchAll();
+    } catch (\PDOException $e) {
+        error_log('Database error: ' . $e->getMessage());
+        return false;
+    }
+}
+
+function readArticle($id) {
+    $pdo = dbConnect();
+    try {
+        $stmt = $pdo->prepare("SELECT * FROM articles WHERE id = :id");
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetch();
     } catch (\PDOException $e) {
         error_log('Database error: ' . $e->getMessage());
         return false;

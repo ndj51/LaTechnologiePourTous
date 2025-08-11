@@ -9,7 +9,8 @@ require_once __DIR__ . '/../core/functions.php';
 
 
 <?php
-$articles = readArticles();
+// affichage des cinq derniers articles
+$articles = readArticles(5); // On lit les 5 derniers articles
 if ($articles) {
     foreach ($articles as $article) {
         echo '<div class="article">';
@@ -21,6 +22,8 @@ if ($articles) {
 } else {
     echo '<p>Aucun article trouvé.</p>';
 }
+
+
 ?>
 
 <?php

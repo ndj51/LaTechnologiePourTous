@@ -54,15 +54,38 @@ if (isset($_POST['action'])) {
                 $error = 'Erreur lors de la création de l\'article.';
             }
         }
-    }   
+    } 
+    if ($POST['action'] === 'createUser') {
+        // Code pour créer un utilisateur (à adapter selon vos besoins)
+        // Par exemple, insérer un utilisateur dans la table user
+        // Création de l'utilisateur...
+        $error = '';
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            error_log("Creation de l'utilisateur...");
+            global $pdo;
+            $id = 1; // Exemple d'ID, à adapter selon votre logique
+            $username = 'testuser';
+            $email = 'test@exemple.com';
+            $password = password_hash('password', PASSWORD_DEFAULT);
+            $created_at = date('Y-m-d H:i:s');  
+            $stmt = $pdo->prepare("INSERT INTO user (
+            id, username, email, password, created_at
+            ) VALUES (?, ?, ?, ?, ?)");
+            $stmt->execute([$id, $username, $email, $password, $created_at]);
+
+            echo "Création de l'utilisateur : $username\n";
+        }
+
+}
 
 }
 
 
-function readArticles() {
+function readArticles($nb) {
+    $quantity = $nb; // Nombre d'articles à lire.
     $pdo = dbConnect();
     try {
-        $stmt = $pdo->query("SELECT * FROM articles ORDER BY created_at DESC");
+        $stmt = $pdo->query("SELECT * FROM articles ORDER BY created_at DESC LIMIT $quantity");
         return $stmt->fetchAll();
     } catch (\PDOException $e) {
         error_log('Database error: ' . $e->getMessage());

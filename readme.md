@@ -30,3 +30,6 @@
 │
 ├── .htaccess                   # Gère les redirections et la sécurité
 └── config.php                  # Fichier de configuration
+
+
+

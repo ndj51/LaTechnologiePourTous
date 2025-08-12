@@ -1,11 +1,10 @@
-# LaTechnologiePourTous
+
 
 /
 ├── public/                     # Dossier accessible publiquement
 │   ├── index.php              # Page d'accueil statique
 │   ├── admin.php              # Page d'administration statique
 │   ├── blog.php               # Page de blog statique
-│   ├── loginUsers.php         # Page de connexion de l'admin
 │   ├── includes/
 │   │   ├── header.php
 │   │   └── footer.php
@@ -31,3 +30,6 @@
 │
 ├── .htaccess                   # Gère les redirections et la sécurité
 └── config.php                  # Fichier de configuration
+
+
+

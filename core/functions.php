@@ -1,4 +1,5 @@
 <?php
+error_log('functions.php loaded');
 require_once 'bdd.php';
 // On vérifie d'abord si une action a été envoyée
 if (isset($_POST['action'])) {
@@ -55,7 +56,8 @@ if (isset($_POST['action'])) {
             }
         }
     } 
-    if ($POST['action'] === 'createUser') {
+
+    if ($_POST['action'] === 'createUser') {
         // Code pour créer un utilisateur (à adapter selon vos besoins)
         // Par exemple, insérer un utilisateur dans la table user
         // Création de l'utilisateur...
@@ -75,9 +77,42 @@ if (isset($_POST['action'])) {
 
             echo "Création de l'utilisateur : $username\n";
         }
-
+    }
+}
+if(isset($_GET['action'])){
+    if ($_GET['action'] === 'searchArticle') {
+        error_log('search articles');
+        error_log('Search article action triggered: ' . $_GET['action']);
+        // Logique pour rechercher un article
+        // ...
+        $query = trim($_GET['query'] ?? '');
+        if (!empty($query)) {
+            $articles = searchArticle($query);
+            if ($articles) {
+                foreach ($articles as $article) {
+                    echo '<div class="article">';
+                    echo '<h2>' . htmlspecialchars($article['title']) . '</h2>';
+                    echo '<p>' . nl2br(htmlspecialchars(substr($article['content'], 0, 150))) . '...</p>';
+                    echo '<p><em>Publié le ' . htmlspecialchars($article['created_at']) . '</em></p>';
+                    echo '<a href="article.php?id=' . htmlspecialchars($article['id']) . '">Lire la suite</a>';                        echo '</div>';
+                }
+            } else {
+                echo '<p>Aucun article trouvé.</p>'; 
+            }               
+        }
+    }
 }
 
+function searchArticle($query) {
+    $pdo = dbConnect();
+    try {
+        $stmt = $pdo->prepare("SELECT * FROM articles WHERE title LIKE :query OR content LIKE :query ORDER BY created_at DESC");
+        $stmt->execute(['query' => '%' . $query . '%']);
+        return $stmt->fetchAll();
+    } catch (\PDOException $e) {
+        error_log('Database error: ' . $e->getMessage());
+        return false;
+    }
 }
 
 

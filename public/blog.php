@@ -32,12 +32,19 @@
             echo '<p>' . nl2br(htmlspecialchars(substr($article['content'], 0, 150))) . '...</p>';
             echo '<p><em>Publié le ' . htmlspecialchars($article['created_at']) . '</em></p>';
             echo '<a href="article.php?id=' . htmlspecialchars($article['id']) . '">Lire la suite</a>';
+            
             echo '</div>';
         }
     } else {
         echo '<p>Aucun article trouvé.</p>';
     };
+    // champ de recherche pour trouver un article
     ?>
+    <form method="GET" action="../core/functions.php">
+        <input type="text" name="query" placeholder="Rechercher un article..." required>
+        <button type="submit">Rechercher</button>
+        <input type="hidden" name="action" value="searchArticle">
+    </form>
 
     <?php
     // Inclure le pied de page

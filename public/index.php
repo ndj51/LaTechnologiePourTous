@@ -20,6 +20,8 @@
         <p>Contenu principal.</p>
     </main>
     <?php
+    
+    // Include the footer
     require_once __DIR__ . '/includes/footer.php';
     ?>
     <script src="assets/js/app.js"></script>

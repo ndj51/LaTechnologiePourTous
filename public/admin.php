@@ -45,7 +45,16 @@
 
             <button type="submit">Enregistrer</button>
         </form>
-    </div>
+
+        <h3>Création de la base de donnée et de son fake contenu </h3>
+        <div>
+            <form method="post" action="../configDev/config.php">
+                <label for="createDataBase">Création de la base de donnée:</label></br>
+                <input type="hidden" id="createDataBase" name="createDataBase"></br>
+                </br>
+                <button type="submit">cliqué pour création la base de données</button>
+            </form>
+        </div>
     <script src="assets/js/app.js"></script>
     <script src="assets/js/admin.js"></script>
     <script src="assets/js/common.js"></script>

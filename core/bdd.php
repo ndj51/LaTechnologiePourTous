@@ -1,31 +1,11 @@
 <?php
 
 function dbConnect() {
-    $user_agent = $_SERVER['HTTP_USER_AGENT'];
-    $os = 'Inconnu';
-
-    if (preg_match('/windows|win32/i', $user_agent)) {
-        $os = 'Windows';
-    } elseif (preg_match('/macintosh|mac os x/i', $user_agent)) {
-        $os = 'macOS';
-    } elseif (preg_match('/linux/i', $user_agent)) {
-        $os = 'Linux';
-    }
-
-    if ($os == 'Linux') {
-        $host = 'localhost:3306';
-        $pass = 'password';
-    } elseif ($os == 'macOS') {
-        $host = 'localhost:8889';
-        $pass = 'root';
-    } else {
-        // En cas d'OS non reconnu ou pour le déploiement en ligne
-        throw new Exception("OS non supporté pour la connexion à la BDD.");
-    }
-    
-    $db   = 'LaTechnologiePourTous';
-    $user = 'root';
-    $charset = 'utf8mb4';
+$host    = 'localhost:3306';
+$db      = 'LaTechnologiePourTous';
+$user    = 'root';
+$pass    = 'password'; 
+$charset = 'utf8mb4';
 
     $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
     $options = [
